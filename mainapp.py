@@ -232,22 +232,22 @@ b8.grid(row=50,column=1)
 
 middle_frame.grid(row=0,column=2,stick=E)
 
-# right_frame = Frame(window,highlightcolor='red',highlightbackground='blue',highlightthickness=1,height=window.winfo_screenheight()-50)
-# e = Label(right_frame,text="your mail id ",font=("Poor Richard",15))
-# e.grid(row=1,column=0)
-# e_entry = Entry(right_frame,width=50) 
-# e_entry.grid(row=1,column=1)
+right_frame = Frame(window,highlightcolor='red',highlightbackground='blue',highlightthickness=1,height=window.winfo_screenheight()-50)
+e = Label(right_frame,text="your mail id ",font=("Poor Richard",15))
+e.grid(row=1,column=0)
+e_entry = Entry(right_frame,width=50) 
+e_entry.grid(row=1,column=1)
 
-# f= Label(right_frame,text="your password ",font=("Poor Richard",15))
-# f.grid(row=6,column=0)
-# f_entry = Entry(right_frame,width=50)
-# f_entry.config(show='*')
-# f_entry.grid(row=6,column=1)
-# g= Label(right_frame,text="host mail id",font=("Poor Richard",15))
-# g.grid(row=11,column=0)
-# g_entry = Entry(right_frame,width=50)
-# g_entry.grid(row=11,column=1)
-# right_frame.grid(row=0,column=2,sticky=N)
+f= Label(right_frame,text="your password ",font=("Poor Richard",15))
+f.grid(row=6,column=0)
+f_entry = Entry(right_frame,width=50)
+f_entry.config(show='*')
+f_entry.grid(row=6,column=1)
+g= Label(right_frame,text="host mail id",font=("Poor Richard",15))
+g.grid(row=11,column=0)
+g_entry = Entry(right_frame,width=50)
+g_entry.grid(row=11,column=1)
+right_frame.grid(row=0,column=2,sticky=N)
 
 
 def attachments():
@@ -279,9 +279,10 @@ def send():
     except:
         messagebox.showwarning("warning","mail NOT sent. Try again")  
  
-# b9 = Button(right_frame, text=" --- share --- ",bg='magenta', command=send)
-# b9.config( height = 3, width = 20)
-# b9.grid(row=20,column=1)
+b9 = Button(right_frame, text=" --- share --- ",bg='magenta', command=send)
+b9.config( height = 3, width = 20)
+b9.grid(row=20,column=1)
+
 def show():
     pr.name(name_entry.get())
     pr.age(age_entry.get())

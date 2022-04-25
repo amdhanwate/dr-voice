@@ -1,15 +1,18 @@
-
+# Import Libraries
 import cv2
 import os
 from datetime import date
 from PIL import Image
+
+# Get today's date
 today = date.today().strftime("%d/%m/%Y")
 
+# Color Codes in (B,G,R)
 black = (1,1,1)
 white = (255,255,255)
 red = (20, 20, 255)
 
-
+# Global Variables used during program execution
 global addname,addage,addgender,addserial,addsignature,addsymptom,adddiagnosis,addadvice,templete,quantity,medname,af_bf,tim,medpos,qtypos,af_bfpos,timpos
 addname = ""
 addage = ""
@@ -29,6 +32,7 @@ qtypos =[]
 af_bfpos = []
 timpos = []
 
+# Insert Medicines one by one
 for i in range(20):
     num = 500 + ((i-1) * 20)
     medpos.append((60,num)) 
@@ -40,6 +44,7 @@ for i in range(20):
     af_bf.append("")
     tim.append("")
 
+# Fill the text in the template
 def generate():
     global addname,addage,addgender,addserial,addsignature,addsymptom,adddiagnosis,addadvice,templete,quantity,medname,af_bf,tim,medpos,qtypos,af_bfpos,timpos
     templete = cv2.imread(os.getcwd() + '/prescription.png' )
@@ -60,29 +65,35 @@ def generate():
         write(str(tim[j]),timpos[j])
         j = j+1
         
+# Function to write text on the image provided text and text-position and size of the text
 def write(text,origin, color=black,size=0.6):
     global templete
     cv2.putText(templete, text , origin ,  cv2.FONT_HERSHEY_DUPLEX, size, color , 1, cv2.LINE_AA)
 
+# Modify global name
 def name(x):
     global addname
     addname = x
     generate()
 
+# Modify global age
 def age(x):
     global addage
     addage = x
     generate()
 
+# Modify global gender
 def gender(x):
     global addgender
     addgender = x
     generate()
 
+# Modify global serial
 def serial(x):
     global addserial
     addserial = x
 
+# Modify global medicine
 def medicine(number,med,qty=1,ab=0,t=1):
     global medname,quantity,af_bf,tim
     if(number < 20):
@@ -100,6 +111,7 @@ def medicine(number,med,qty=1,ab=0,t=1):
             time = ""
         elif(t == 4):
             time = ""
+
         del medname[number]
         medname.insert(number,med) 
 
@@ -112,30 +124,36 @@ def medicine(number,med,qty=1,ab=0,t=1):
         del tim[number]
         tim.insert(number,time)
         
-
+# Modify global signature
 def signature(x):
     global addsignature
     addsignature = x
     generate()
 
+# Modify global symptoms
 def symptoms(x):
     global addsymptom
     addsymptom = x
     generate()
 
+# Modify global diagnosis
 def diagnosis(x):
     global adddiagnosis
     adddiagnosis = x
     generate()
 
+# Modify global advice
 def advice(x):
     global addadvice
     addadvice = x
     generate()
 
+# Save the Prescription as PDF
 def save():
-    global addserial
+    global addserial, addname, addage, addgender, addsignature, addsymptom, adddiagnosis, addadvice, templete
+    path = "/".join(os.getcwd().split("\\")) + '/prescriptions/'
     im_pil = Image.fromarray(cv2.cvtColor(templete,cv2.COLOR_BGR2RGB))
-    im_pil.save("prescription" + str(addserial) + ".pdf","PDF",resolution = 100)
+    im_pil.save(path + "_" + str(addname) + "_" + str(addserial) + ".pdf","PDF",resolution = 100)
+
 
 

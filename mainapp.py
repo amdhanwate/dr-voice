@@ -52,16 +52,19 @@ middle_frame = Frame(window,width =0.700,highlightcolor='black',highlightbackgro
 
 def name():
         with sr.Microphone() as source:
-                 
+                t1,audio = "",""
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        r.adjust_for_ambient_noise(source,duration=2)
                         speak("patient\'s name")        
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
+                        print(t1,audio,source)
                         name_entry.insert(0,t1)
                         pr.name(name_entry.get())
                 except:
+                        print(t1,audio,source)
                         speak(' could not recognize ')
+
 name_label = Label(middle_frame,text="Name",font=("Poor Richard",15))
 name_label.grid(row=1,column=0)
 name_entry = Entry(middle_frame,width=50)
@@ -83,7 +86,7 @@ def age():
                 except Exception as e:
                         print(e)
                         speak(' could not recognize ')
-age_label = Label(middle_frame,text="age",font=("Poor Richard",15))
+age_label = Label(middle_frame,text="Age",font=("Poor Richard",15))
 age_label.grid(row=5,column=0)
 age_entry = Entry(middle_frame,width=50)
 age_entry.grid(row=5,column=1)
@@ -103,7 +106,7 @@ def gender():
                         pr.gender(gen_entry.get())
                 except:
                         speak(' could not recognize ')
-gen_label = Label(middle_frame,text="gender",font=("Poor Richard",15))
+gen_label = Label(middle_frame,text="Gender",font=("Poor Richard",15))
 gen_label.grid(row=10,column=0)
 gen_entry = Entry(middle_frame,width=50)
 gen_entry.grid(row=10,column=1)
@@ -122,7 +125,7 @@ def serial():
                         pr.serial(sl_entry.get())
                 except:
                         speak(' could not recognize ')
-sl_label = Label(middle_frame,text="serial",font=("Poor Richard",15))
+sl_label = Label(middle_frame,text="Serial",font=("Poor Richard",15))
 sl_label.grid(row=15,column=0)
 sl_entry = Entry(middle_frame,width=50)
 sl_entry.grid(row=15,column=1)
@@ -135,7 +138,7 @@ def medicines():
         with sr.Microphone() as source: 
                 try:
                         count+=1
-                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        r.adjust_for_ambient_noise(source,duration=2)
                         speak("patient\'s medicines")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
@@ -145,7 +148,7 @@ def medicines():
                         pr.medicine(count,t1[0],t1[1],0,1)
                 except:
                         speak(' could not recognize ')
-md_label = Label(middle_frame,text="medicines",font=("Poor Richard",15))
+md_label = Label(middle_frame,text="Medicines",font=("Poor Richard",15))
 md_label.grid(row=20,column=0)
 md_entry = Entry(middle_frame,width=50)
 md_entry.grid(row=20,column=1)
@@ -173,7 +176,7 @@ def symptoms():
                         pr.symptoms(sm_entry.get())
                 except:
                         speak(' could not recognize ')
-sm_label = Label(middle_frame,text="symptoms",font=("Poor Richard",15))
+sm_label = Label(middle_frame,text="Symptoms",font=("Poor Richard",15))
 sm_label.grid(row=30,column=0)
 sm_entry = Entry(middle_frame,width=50)
 sm_entry.grid(row=30,column=1)
@@ -192,13 +195,14 @@ def diag():
                         pr.diagnosis(dia_entry.get())
                 except:
                         speak(' could not recognize ')
-dia_label = Label(middle_frame,text="diagnosis",font=("Poor Richard",15))
+dia_label = Label(middle_frame,text="Diagnosis",font=("Poor Richard",15))
 dia_label.grid(row=35,column=0)
 dia_entry = Entry(middle_frame,width=50)
 dia_entry.grid(row=35,column=1)
 b6 = Button(middle_frame, text="diagnosis",bg='lightgreen', command=diag)
 b6.config( height = 1, width = 8)
 b6.grid(row=35,column=5)
+
 def advice():
         with sr.Microphone() as source:
                  
@@ -211,14 +215,15 @@ def advice():
                         pr.advice(ad_entry.get())
                 except:
                         speak(' could not recognize ')
-ad_label = Label(middle_frame,text="advice",font=("Poor Richard",15))
+ad_label = Label(middle_frame,text="Advice",font=("Poor Richard",15))
 ad_label.grid(row=40,column=0)
+
 ad_entry = Entry(middle_frame,width=50)
 ad_entry.grid(row=40,column=1)
 b7 = Button(middle_frame, text="advice",bg='lightgreen', command=advice)
 b7.config( height = 1, width = 6)
 b7.grid(row=40,column=5)
-sig_label = Label(middle_frame,text="signature",font=("Poor Richard",15))
+sig_label = Label(middle_frame,text="Signature",font=("Poor Richard",15))
 sig_label.grid(row=45,column=0)
 sig_entry = Entry(middle_frame,width=50)
 sig_entry.grid(row=45,column=1)

@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter import messagebox  
+from tkinter import messagebox
+
+# import black  
 import prescription as pr
 import speech_recognition as sr
 import cv2
@@ -14,11 +16,9 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-os.environ["TCL_LIBRARY"] = "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python38-32\\tcl\\tcl8.6"
-os.environ["TK_LIBRARY"] = "C:\\Users\\hp\\AppData\\Local\\Programs\\Python\\Python38-32\\tcl\\tk8.6"
 
 window = Tk()
-window.title("< JUST - A - WORD >")
+window.title("Dr. Voice")
 window.iconbitmap("ICON vp.ico")
 window.geometry("%dx%d+0+0" % (window.winfo_screenwidth(),window.winfo_screenheight()-50))
 window.resizable(0,0)
@@ -26,6 +26,7 @@ engine=pyttsx3.init()
 voices=engine.getProperty('voices')
 engine.setProperty('voice',voices[1].id)
 r=sr.Recognizer()
+
 def cv():
     img = cv2.cvtColor(pr.templete, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img,(int(img.shape[1]*(window.winfo_screenheight()/float(img.shape[0]))),window.winfo_screenheight() - 50))
@@ -34,6 +35,7 @@ def cv():
     image_frame.ImageTk = img
     image_frame.configure(image = img)
     showid = image_frame.after(10,show)
+
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
@@ -46,13 +48,14 @@ left_frame = Frame(window)
 image_frame = Label(left_frame)
 image_frame.grid(row=0,column=0)
 left_frame.grid()
-middle_frame = Frame(window,width =0.700,highlightcolor='green',highlightbackground='green',highlightthickness=1,height=window.winfo_screenheight()-50)
+middle_frame = Frame(window,width =0.700,highlightcolor='black',highlightbackground='green',highlightthickness=1,height=window.winfo_screenheight()-50)
+
 def name():
         with sr.Microphone() as source:
                  
-                speak("patient\'s name")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s name")        
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         name_entry.insert(0,t1)
@@ -66,17 +69,19 @@ name_entry.grid(row=1,column=1)
 b = Button(middle_frame, text="name",bg='lightgreen', command=name)
 b.config( height = 1, width = 6)
 b.grid(row=1,column=5)
+
 def age():
         with sr.Microphone() as source:
                  
-                speak("patient\'s age")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s age")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         age_entry.insert(0,t1)
                         pr.age(age_entry.get())
-                except:
+                except Exception as e:
+                        print(e)
                         speak(' could not recognize ')
 age_label = Label(middle_frame,text="age",font=("Poor Richard",15))
 age_label.grid(row=5,column=0)
@@ -87,9 +92,9 @@ b1.config( height = 1, width = 6)
 b1.grid(row=5,column=5)
 def gender():
         with sr.Microphone() as source:
-                speak("patient\'s gender")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s gender")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         if t1=='mail':
@@ -108,9 +113,9 @@ b2.grid(row=10,column=5)
 def serial():
         with sr.Microphone() as source:
                  
-                speak("patient\'s serial nmber")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s serial nmber")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         sl_entry.insert(0,t1)
@@ -128,10 +133,10 @@ count=0
 def medicines():
         global count
         with sr.Microphone() as source: 
-                speak("patient\'s medicines")
                 try:
                         count+=1
-                        r.adjust_for_ambient_noise(source,duration=1)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s medicines")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         t1.remove('tablets')
@@ -157,10 +162,11 @@ b4.config( height = 1, width = 8)
 b4.grid(row=20,column=5)
 def symptoms():
         with sr.Microphone() as source:
-                 
-                speak("patient\'s symptoms")
+
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak("patient\'s symptoms")
+                        print("169")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         sm_entry.insert(0,t1)
@@ -177,9 +183,9 @@ b5.grid(row=30,column=5)
 def diag():
         with sr.Microphone() as source:
                  
-                speak(" diagnosis ")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        speak(" diagnosis ")
                         audio= r.listen(source)
                         t1 = r.recognize_google(audio)
                         dia_entry.insert(0,t1)
@@ -198,8 +204,8 @@ def advice():
                  
                 speak("advice for patient")
                 try:
-                        r.adjust_for_ambient_noise(source,duration=0.7)
-                        audio= r.listen(source)
+                        r.adjust_for_ambient_noise(source,duration=0.5)
+                        audio = r.listen(source)
                         t1 = r.recognize_google(audio)
                         ad_entry.insert(0,t1)
                         pr.advice(ad_entry.get())
@@ -226,25 +232,28 @@ b8.grid(row=50,column=1)
 
 middle_frame.grid(row=0,column=2,stick=E)
 
-right_frame = Frame(window,highlightcolor='red',highlightbackground='blue',highlightthickness=1,height=window.winfo_screenheight()-50)
-e = Label(right_frame,text="your mail id ",font=("Poor Richard",15))
-e.grid(row=1,column=0)
-e_entry = Entry(right_frame,width=50)
-e_entry.grid(row=1,column=1)
+# right_frame = Frame(window,highlightcolor='red',highlightbackground='blue',highlightthickness=1,height=window.winfo_screenheight()-50)
+# e = Label(right_frame,text="your mail id ",font=("Poor Richard",15))
+# e.grid(row=1,column=0)
+# e_entry = Entry(right_frame,width=50) 
+# e_entry.grid(row=1,column=1)
 
-f= Label(right_frame,text="your password ",font=("Poor Richard",15))
-f.grid(row=6,column=0)
-f_entry = Entry(right_frame,width=50)
-f_entry.config(show='*')
-f_entry.grid(row=6,column=1)
-g= Label(right_frame,text="host mail id",font=("Poor Richard",15))
-g.grid(row=11,column=0)
-g_entry = Entry(right_frame,width=50)
-g_entry.grid(row=11,column=1)
-right_frame.grid(row=0,column=2,sticky=N)
+# f= Label(right_frame,text="your password ",font=("Poor Richard",15))
+# f.grid(row=6,column=0)
+# f_entry = Entry(right_frame,width=50)
+# f_entry.config(show='*')
+# f_entry.grid(row=6,column=1)
+# g= Label(right_frame,text="host mail id",font=("Poor Richard",15))
+# g.grid(row=11,column=0)
+# g_entry = Entry(right_frame,width=50)
+# g_entry.grid(row=11,column=1)
+# right_frame.grid(row=0,column=2,sticky=N)
+
+
 def attachments():
     file_path = filedialog.askopenfilename()
     return file_path
+	
 def send():
     try:
         msg = MIMEMultipart()
@@ -270,9 +279,9 @@ def send():
     except:
         messagebox.showwarning("warning","mail NOT sent. Try again")  
  
-b9 = Button(right_frame, text=" --- share --- ",bg='magenta', command=send)
-b9.config( height = 3, width = 20)
-b9.grid(row=20,column=1)
+# b9 = Button(right_frame, text=" --- share --- ",bg='magenta', command=send)
+# b9.config( height = 3, width = 20)
+# b9.grid(row=20,column=1)
 def show():
     pr.name(name_entry.get())
     pr.age(age_entry.get())
@@ -286,9 +295,7 @@ def show():
     cv()
 show()
 def about():
-        messagebox.showinfo('About <JUST A WORD>! ','JAW is a application that designes medical prescription based on speech recognition.'
-                                              ' which can directly sent to patient via gmail.\n'
-                                              '-Developed by Bharat Chandra.\n\nMobile version will be soon...')
+        messagebox.showinfo('Voice Prescription System')
 def guide():
     messagebox.showinfo('USER MANUAL',
         '1.click on the button that u want to fill the field.\n'
